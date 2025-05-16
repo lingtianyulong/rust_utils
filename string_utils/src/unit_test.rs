@@ -48,5 +48,45 @@ mod tests {
         assert!(contains(s.as_ptr(), contain.as_ptr()));
     }
 
+    #[test]
+    fn test_to_uppercase() {
+        let s = CString::new("Hello World").unwrap();
+        let result = unsafe { CString::from_raw(to_uppercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "HELLO WORLD");
 
+        let s = CString::new("hello123").unwrap();
+        let result = unsafe { CString::from_raw(to_uppercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "HELLO123");
+
+        let s = CString::new("你好世界").unwrap();
+        let result = unsafe { CString::from_raw(to_uppercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "你好世界");
+
+        let s = CString::new("").unwrap();
+        let result = unsafe { CString::from_raw(to_uppercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "");
+
+        assert!(to_uppercase(std::ptr::null()).is_null());
+    }
+
+    #[test]
+    fn test_to_lowercase() {
+        let s = CString::new("HELLO WORLD").unwrap();
+        let result = unsafe { CString::from_raw(to_lowercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "hello world");
+
+        let s = CString::new("HELLO123").unwrap();
+        let result = unsafe { CString::from_raw(to_lowercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "hello123");
+
+        let s = CString::new("你好世界").unwrap();
+        let result = unsafe { CString::from_raw(to_lowercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "你好世界");
+
+        let s = CString::new("").unwrap();
+        let result = unsafe { CString::from_raw(to_lowercase(s.as_ptr())) };
+        assert_eq!(result.to_str().unwrap(), "");
+
+        assert!(to_lowercase(std::ptr::null()).is_null());
+    }
 }
