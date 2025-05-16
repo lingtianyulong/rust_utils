@@ -76,7 +76,7 @@ pub extern "C" fn contains(src: *const c_char, contain: *const c_char) -> bool {
         Err(_) => return false,
     };
 
-    s_str.contains(contain_str)
+    s_str.contains(contain_str)   // 区分大小写
 }
 
 #[cfg(test)]
