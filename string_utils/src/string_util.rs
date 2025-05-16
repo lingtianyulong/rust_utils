@@ -1,4 +1,4 @@
-use std::ffi::CStr;
+use std::ffi::{CStr, CString};
 use std::os::raw::c_char;
 
 // 判断字符串是否以某个字符串开头
@@ -77,4 +77,52 @@ pub extern "C" fn contains(src: *const c_char, contain: *const c_char) -> bool {
     };
 
     s_str.contains(contain_str)   // 区分大小写
+}
+
+// 将字符串转换为大写形式
+// 若转换成功, 返回转换后的字符串指针, 否则返回 NULL
+#[unsafe(no_mangle)]
+pub extern "C" fn to_uppercase(src: *const c_char) -> *mut c_char {
+    let s_cstr = unsafe {
+        if src.is_null() {
+            return std::ptr::null_mut();
+        }
+        CStr::from_ptr(src)
+    };
+
+    let s_str = match s_cstr.to_str() {
+        Ok(str) => str,
+        Err(_) => return std::ptr::null_mut(),
+    };
+
+    let upper = s_str.to_uppercase();
+    
+    match CString::new(upper) {
+        Ok(cstring) => cstring.into_raw(),
+        Err(_) => std::ptr::null_mut()
+    }
+}
+
+// 将字符串转换为小写形式
+// 若转换成功, 返回转换后的字符串指针, 否则返回 NULL
+#[unsafe(no_mangle)]
+pub extern "C" fn to_lowercase(src: *const c_char) -> *mut c_char {
+    let s_cstr = unsafe {
+        if src.is_null() {
+            return std::ptr::null_mut();
+        }
+        CStr::from_ptr(src)
+    };
+
+    let s_str = match s_cstr.to_str() {
+        Ok(str) => str,
+        Err(_) => return std::ptr::null_mut(),
+    };
+
+    let upper = s_str.to_lowercase();
+    
+    match CString::new(upper) {
+        Ok(cstring) => cstring.into_raw(),
+        Err(_) => std::ptr::null_mut()
+    }
 }
