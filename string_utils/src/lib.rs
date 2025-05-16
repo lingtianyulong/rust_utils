@@ -79,9 +79,6 @@ pub extern "C" fn contains(src: *const c_char, contain: *const c_char) -> bool {
     s_str.contains(contain_str)
 }
 
-
-
-
 #[cfg(test)]
 mod tests {
     use super::*;
