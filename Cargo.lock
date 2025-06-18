@@ -3,5 +3,5 @@
 version = 4
 
 [[package]]
-name = "string_utils"
+name = "rust_utils"
 version = "0.1.0"
