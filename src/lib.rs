@@ -1,3 +1,3 @@
-pub mod string_module;
+pub mod str_utils;
 
-pub use string_module::*;
+pub use str_utils::*;
